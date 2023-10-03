@@ -96,6 +96,7 @@ AVLTree::Node* AVLTree::insertHelper(Node* node, string name, int id) {
                 }
             }
         }
+        
         return node;
     }
 }
@@ -303,27 +304,32 @@ bool AVLTree::removeID(int id){
     }
 }
 
+// print out the number of levels in the tree
 int AVLTree::printLevelCount() {
+    int count = 0;
     if (root == nullptr) {
-		return 0;
+		return count;
 	}
-	queue<Node*> q;
-	q.push(root);
-	int count = 0;
-    while (!q.empty()) {
-		int size = q.size();
-        while (size > 0) {
-			Node* node = q.front();
-			q.pop();
-            if (node->left != nullptr) {
-				q.push(node->left);
-			}
-            if (node->right != nullptr) {
-				q.push(node->right);
-			}
-			size--;
-		}
-		count++;
-	}
-	return count;
+    else {
+        queue<Node*> q;
+        q.push(root);
+        while (!q.empty()) {
+            int size = q.size();
+            while (size > 0) {
+                Node* node = q.front();
+                q.pop();
+                // print out all the names in the current level on a new line
+                cout << node->name << " ";
+                if (node->left != nullptr) {
+                    q.push(node->left);
+                }
+                if (node->right != nullptr) {
+                    q.push(node->right);
+                }
+                size--;
+            }
+            count++;
+        }
+        return count;
+    }
 }

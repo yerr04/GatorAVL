@@ -41,6 +41,30 @@ int main(){
 	else {
 		cout << "unsuccessful" << endl;
 	}
+	if (tree.insertNameID("Amanda", 36925814)) {
+		cout << "successful" << endl;
+	}
+	else {
+		cout << "unsuccessful" << endl;
+	}
+	if (tree.insertNameID("John", 74125896)) {
+		cout << "successful" << endl;
+	}
+	else {
+		cout << "unsuccessful" << endl;
+	}
+	if (tree.insertNameID("Katie", 85296314)) {
+		cout << "successful" << endl;
+	}
+	else {
+		cout << "unsuccessful" << endl;
+	}
+	if (tree.insertNameID("Jenny", 85236974)) {
+		cout << "successful" << endl;
+	}
+	else {
+		cout << "unsuccessful" << endl;
+	}
 
 	// print in order test
 	tree.printInOrder();
