@@ -182,35 +182,44 @@ string AVLTree::printInOrderHelper(Node* node){
     if(node == nullptr){
         return "";
     }
-    return printInOrderHelper(node->left) + node->name + " " + to_string(node->id) + "\n" + printInOrderHelper(node->right);
+    string str = printInOrderHelper(node->left) + node->name + ", " + printInOrderHelper(node->right);
+    return str;
+    // do not print out a comma after the last name in the tree
+
 }
 // print out a comma separated inorder traversal of the names in the tree
 void AVLTree::printInOrder(){
-    cout << printInOrderHelper(root);
+    string list = printInOrderHelper(root);
+	list = list.substr(0, list.length()-2);
+    cout << list << endl;
 }
 
 string AVLTree::printPreOrderHelper(Node* node){
     if(node == nullptr){
         return "";
     }
-    return node->name + " " + to_string(node->id) + "\n" + printPreOrderHelper(node->left) + printPreOrderHelper(node->right);
+    return node->name + ", " + printPreOrderHelper(node->left) + printPreOrderHelper(node->right);
 }
 
 // print out a comma separated preorder traversal of the names in the tree
 void AVLTree::printPreOrder(){
-    cout << printPreOrderHelper(root);
+    string list = printPreOrderHelper(root);
+	list = list.substr(0, list.length()-2);
+	cout << list << endl;
 }
 
 string AVLTree::printPostOrderHelper(Node* node){
     if(node == nullptr){
         return "";
     }
-    return printPostOrderHelper(node->left) + printPostOrderHelper(node->right) + node->name + " " + to_string(node->id) + "\n";
+    return printPostOrderHelper(node->left) + printPostOrderHelper(node->right) + node->name + ", ";
 }
 
 // print out a comma separated postorder traversal of the names in the tree
 void AVLTree::printPostOrder(){
-    cout << printPostOrderHelper(root);
+    string list = printPostOrderHelper(root);
+	list = list.substr(0, list.length()-2);
+	cout << list << endl;
 }
 
 // remove the nth gatorid from the inorder traveral of the tree
@@ -292,4 +301,29 @@ bool AVLTree::removeID(int id){
     else{
         return false;
     }
+}
+
+int AVLTree::printLevelCount() {
+    if (root == nullptr) {
+		return 0;
+	}
+	queue<Node*> q;
+	q.push(root);
+	int count = 0;
+    while (!q.empty()) {
+		int size = q.size();
+        while (size > 0) {
+			Node* node = q.front();
+			q.pop();
+            if (node->left != nullptr) {
+				q.push(node->left);
+			}
+            if (node->right != nullptr) {
+				q.push(node->right);
+			}
+			size--;
+		}
+		count++;
+	}
+	return count;
 }

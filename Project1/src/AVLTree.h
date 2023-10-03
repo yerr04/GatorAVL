@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <queue>
 using namespace std;
 
 class AVLTree{
@@ -46,6 +47,6 @@ class AVLTree{
         void printInOrder();
         void printPreOrder();
         void printPostOrder();
-        void printLevelCount();
+        int printLevelCount();
         bool removeInOrder(int n);
 };

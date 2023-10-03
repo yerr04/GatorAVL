@@ -29,6 +29,18 @@ int main(){
 	else {
 			cout << "unsuccessful" << endl;
 		}
+	if (tree.insertNameID("Nathan", 68427539)) {
+		cout << "successful" << endl;
+	}
+	else {
+		cout << "unsuccessful" << endl;
+	}
+	if (tree.insertNameID("Sara", 79138426)) {
+		cout << "successful" << endl;
+	}
+	else {
+		cout << "unsuccessful" << endl;
+	}
 
 	// print in order test
 	tree.printInOrder();
@@ -37,15 +49,14 @@ int main(){
 	// search ID test
 	tree.searchID(12345678);
 
-	// remove ID test
-	if (tree.removeID(12345678)) {
-		cout << "successful" << endl;
-	}
-	else {
-		cout << "unsuccessful" << endl;
-	}
-	// print in order test
-	tree.printInOrder();
+	// print pre order test
+	tree.printPreOrder();
+
+	// print post order test
+	tree.printPostOrder();
+
+	// print level count test
+	cout << tree.printLevelCount() << endl;
 
 	return 0;
 }
