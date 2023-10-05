@@ -19,16 +19,24 @@ AVLTree::~AVLTree(){
 }
 
 AVLTree::Node* AVLTree::rotateLeft(Node* node){
-    Node* rightChild = node;
+    Node* rightChild = node->right;
     node->right = rightChild->left;
     rightChild->left = node;
+
+    // update heights
+    updateHeight(node);
+    updateHeight(rightChild);
     return rightChild;
 }
 
 AVLTree::Node* AVLTree::rotateRight(Node* node){
-    Node* leftChild = node;
+    Node* leftChild = node->left;
     node->left = leftChild->right;
     leftChild->right = node;
+
+    // update heights
+    updateHeight(node);
+    updateHeight(leftChild);
     return leftChild;
 }
 
@@ -46,7 +54,7 @@ int AVLTree::height(Node* node){
     if(node == nullptr){
         return 0;
     }
-    return 1 + max(height(node->left), height(node->right));
+    return 1 + max(node->left ? node->left->height : 0, node->right ? node->right->height : 0);
 }
 
 int AVLTree::updateHeight(Node* node) {
@@ -57,45 +65,38 @@ int AVLTree::updateHeight(Node* node) {
 	return node->height;
 }
 
-AVLTree::Node* AVLTree::insertHelper(Node* node, string name, int id) {
+AVLTree::Node* AVLTree::insertHelper(Node* node, string name, string id) {
     if (node == nullptr) {
         return new Node(name, id);
     }
     else {
-        if (id > node->id) {
+        if (stoi(id) > stoi(node->id)) {
             node->right = insertHelper(node->right, name, id);
-
-            int balance = height(node->left) - height(node->right);
-            int balanceNext = 0;
-            if (node->right != nullptr) {
-                balanceNext = height(node->right->left) - height(node->right->right);
-            }
-            if (balance == 2) {
-                if (balanceNext == 1) {
-                    return rotateLeft(node);
-                }
-                else {
-                    return rotateRightLeft(node);
-                }
-            }
         }
         else {
             node->left = insertHelper(node->left, name, id);
-            int balance = height(node->left) - height(node->right);
-            int balanceNext = 0;
-            if (node->left != nullptr) {
-                balanceNext = height(node->left->left) - height(node->left->right);
-
-            }
-            if (balance == -2) {
-                if (balanceNext == -1) {
-                    return rotateRight(node);
-                }
-                else {
-                    return rotateLeftRight(node);
-                }
-            }
         }
+
+        root->height = updateHeight(node);
+
+        // check if tree is balanced
+        int balance = height(node->left) - height(node->right);
+		if (balance > 1) {
+			if (height(node->left->left) >= height(node->left->right)) {
+				node = rotateRight(node);
+			}
+			else {
+				node = rotateLeftRight(node);
+			}
+		}
+		else if (balance < -1) {
+			if (height(node->right->right) >= height(node->right->left)) {
+				node = rotateLeft(node);
+			}
+			else {
+				node = rotateRightLeft(node);
+			}
+		}
         
         return node;
     }
@@ -116,7 +117,7 @@ bool AVLTree::verifyAVL(Node* node){
     return false;
 }
 
-bool AVLTree::insertNameID(string name, int id){
+bool AVLTree::insertNameID(string name, string id){
     if (searchIDHelper(root, id) != nullptr) {
 		return false;
 	}
@@ -124,20 +125,20 @@ bool AVLTree::insertNameID(string name, int id){
 	return true;
 }
 
-AVLTree::Node* AVLTree::searchIDHelper(Node* &node, int id) {
+AVLTree::Node* AVLTree::searchIDHelper(Node* &node, string id) {
     if (node == nullptr) {
         return nullptr;
     }
-    if (id < node->id) {
+    if (stoi(id) < stoi(node->id)) {
         return searchIDHelper(node->left, id);
-    } else if (id > node->id) {
+    } else if (stoi(id) > stoi(node->id)) {
         return searchIDHelper(node->right, id);
     } else {
         return node;
     }
 }
 
-void AVLTree::searchID(int id) {
+void AVLTree::searchID(string id) {
     Node* node = searchIDHelper(root, id);
     if (node == nullptr) {
         cout << "unsuccessful" << endl;
@@ -250,12 +251,12 @@ vector<AVLTree::Node*> AVLTree::inOrderTraversal(Node* node, vector<Node*> &node
     return nodes;
 }
 
-AVLTree::Node* AVLTree::removeHelper(Node* node, int id) {
+AVLTree::Node* AVLTree::removeHelper(Node* node, string id) {
     if (node == nullptr) {
         return nullptr;
     }
     else {
-        if (id == node->id) {
+        if (stoi(id) == stoi(node->id)) {
             if (node->left == nullptr && node->right == nullptr) {
                 delete node;
                 return nullptr;
@@ -281,7 +282,7 @@ AVLTree::Node* AVLTree::removeHelper(Node* node, int id) {
                 return node;
             }
         }
-        else if (id < node->id) {
+        else if (stoi(id) < stoi(node->id)) {
             node->left = removeHelper(node->left, id);
         }
         else {
@@ -294,7 +295,7 @@ AVLTree::Node* AVLTree::removeHelper(Node* node, int id) {
 
 }
 
-bool AVLTree::removeID(int id){
+bool AVLTree::removeID(string id){
     root = removeHelper(root, id);
     if(verifyAVL(root)){
         return true;

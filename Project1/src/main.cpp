@@ -11,73 +11,29 @@ int main(){
 	AVLTree tree;
 
 	cout << "Inserting names and IDs into the AVL tree..." << endl;
-	if (tree.insertNameID("Rohan", 12345678)) {
+	if (tree.insertNameID("Rohan", "1")) {
 		cout << "successful" << endl;
 	}
 	else {
 		cout << "unsuccessful" << endl;
 	}
-	if (tree.insertNameID("Michael", 98596699)) {
+	tree.printInOrder();
+	if (tree.insertNameID("Michael", "2")) {
 		cout << "successful" << endl;
 	}
 	else {
 		cout << "unsuccessful" << endl;
 	}
-	if (tree.insertNameID("Kaylee", 56586561)){
+	tree.printInOrder();
+	if (tree.insertNameID("Kaylee", "3")) {
 		cout << "successful" << endl;
 		}
 	else {
 			cout << "unsuccessful" << endl;
 		}
-	if (tree.insertNameID("Nathan", 68427539)) {
-		cout << "successful" << endl;
-	}
-	else {
-		cout << "unsuccessful" << endl;
-	}
-	if (tree.insertNameID("Sara", 79138426)) {
-		cout << "successful" << endl;
-	}
-	else {
-		cout << "unsuccessful" << endl;
-	}
-	if (tree.insertNameID("Amanda", 36925814)) {
-		cout << "successful" << endl;
-	}
-	else {
-		cout << "unsuccessful" << endl;
-	}
-	if (tree.insertNameID("John", 74125896)) {
-		cout << "successful" << endl;
-	}
-	else {
-		cout << "unsuccessful" << endl;
-	}
-	if (tree.insertNameID("Katie", 85296314)) {
-		cout << "successful" << endl;
-	}
-	else {
-		cout << "unsuccessful" << endl;
-	}
-	if (tree.insertNameID("Jenny", 85236974)) {
-		cout << "successful" << endl;
-	}
-	else {
-		cout << "unsuccessful" << endl;
-	}
 
 	// print in order test
 	tree.printInOrder();
-	// search name test
-	tree.searchName("Kaylee");
-	// search ID test
-	tree.searchID(12345678);
-
-	// print pre order test
-	tree.printPreOrder();
-
-	// print post order test
-	tree.printPostOrder();
 
 	// print level count test
 	cout << tree.printLevelCount() << endl;

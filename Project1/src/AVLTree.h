@@ -8,11 +8,11 @@ class AVLTree{
     private:
         struct Node{
             string name;
-            int id;
+            string id;
             int height = 1;
             Node* left;
             Node* right;
-            Node(string name, int id){
+            Node(string name, string id){
                 this->name = name;
                 this->id = id;
                 left = nullptr;
@@ -26,9 +26,9 @@ class AVLTree{
         Node* rotateRight(Node* node);
         Node* rotateLeftRight(Node* node);
         Node* rotateRightLeft(Node* node);
-        Node* insertHelper(Node* node, string name, int id);
-        Node* removeHelper(Node* node, int id);
-        Node* searchIDHelper(Node* &node, int id);
+        Node* insertHelper(Node* node, string name, string id);
+        Node* removeHelper(Node* node, string id);
+        Node* searchIDHelper(Node* &node, string id);
         Node* searchNameHelper(Node* node, string name);
         string printInOrderHelper(Node* node);
         string printPreOrderHelper(Node* node);
@@ -40,9 +40,9 @@ class AVLTree{
         AVLTree();
         ~AVLTree();
         void deleteTree(Node* node);
-        bool insertNameID(string name, int id);
-        bool removeID(int id);
-        void searchID(int id);
+        bool insertNameID(string name, string id);
+        bool removeID(string id);
+        void searchID(string id);
         void searchName(string name);
         void printInOrder();
         void printPreOrder();
