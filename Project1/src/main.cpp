@@ -38,6 +38,25 @@ int main(){
 	// print level count test
 	cout << tree.printLevelCount() << endl;
 
+	// remove test
+if (tree.removeID("3")) {
+		cout << "successful" << endl;
+	}
+	else {
+		cout << "unsuccessful" << endl;
+	}
+
+	// print in order test
+	tree.printInOrder();
+	
+	// remove in order test
+	if (tree.removeInOrder(1)) {
+		cout << "successful" << endl;
+	}
+	else {
+		cout << "unsuccessful" << endl;
+	}
+	tree.printInOrder();
 	return 0;
 }
 

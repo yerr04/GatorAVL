@@ -232,12 +232,11 @@ bool AVLTree::removeInOrder(int n){
     vector<Node*> nodes;
     nodes = inOrderTraversal(root, nodes);
     if(n > nodes.size()){
-        cout << "unsuccessful" << endl;
         return false;
     }
     else{
         removeID(nodes[n-1]->id);
-        cout << "successful" << endl;
+
         return true;
     }
 }
@@ -289,20 +288,34 @@ AVLTree::Node* AVLTree::removeHelper(Node* node, string id) {
             node->right = removeHelper(node->right, id);
         }
         int balance = height(node->left) - height(node->right);
-
-
+        if (balance > 1) {
+            if (height(node->left->left) >= height(node->left->right)) {
+                node = rotateRight(node);
+            }
+            else {
+                node = rotateLeftRight(node);
+            }
+        }
+        else if (balance < -1) {
+            if (height(node->right->right) >= height(node->right->left)) {
+                node = rotateLeft(node);
+            }
+            else {
+                node = rotateRightLeft(node);
+            }
+        }
+        updateHeight(node);
+        return node;
     }
 
 }
 
-bool AVLTree::removeID(string id){
-    root = removeHelper(root, id);
-    if(verifyAVL(root)){
-        return true;
-    }
-    else{
+bool AVLTree::removeID(string id) {
+    if (searchIDHelper(root, id) == nullptr) {
         return false;
     }
+    root = removeHelper(root, id);
+    return true;
 }
 
 // print out the number of levels in the tree
