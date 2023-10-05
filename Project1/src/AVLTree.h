@@ -39,13 +39,13 @@ class AVLTree{
         AVLTree();
         ~AVLTree();
         void deleteTree(Node* node);
-        bool insertNameID(string name, string id);
-        bool removeID(string id);
+        void insertNameID(string name, string id);
+        void removeID(string id);
         void searchID(string id);
         void searchName(string name);
         void printInOrder();
         void printPreOrder();
         void printPostOrder();
-        int printLevelCount();
-        bool removeInOrder(int n);
+        void printLevelCount();
+        void removeInOrder(int n);
 };

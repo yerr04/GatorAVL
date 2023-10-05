@@ -103,12 +103,12 @@ AVLTree::Node* AVLTree::insertHelper(Node* node, string name, string id) {
 }
 
 
-bool AVLTree::insertNameID(string name, string id){
+void AVLTree::insertNameID(string name, string id){
     if (searchIDHelper(root, id) != nullptr) {
-		return false;
+        cout << "unsuccessful" << endl;
 	}
 	root = insertHelper(root, name, id);
-	return true;
+    cout << "successful" << endl;
 }
 
 AVLTree::Node* AVLTree::searchIDHelper(Node* &node, string id) {
@@ -172,12 +172,11 @@ string AVLTree::printInOrderHelper(Node* node){
     }
     string str = printInOrderHelper(node->left) + node->name + ", " + printInOrderHelper(node->right);
     return str;
-    // do not print out a comma after the last name in the tree
-
 }
 // print out a comma separated inorder traversal of the names in the tree
 void AVLTree::printInOrder(){
     string list = printInOrderHelper(root);
+    // remove the last comma and space
 	list = list.substr(0, list.length()-2);
     cout << list << endl;
 }
@@ -214,16 +213,15 @@ void AVLTree::printPostOrder(){
 // if successful, print successful
 // if not successful, print unsuccessful
 // balance the tree if necessary
-bool AVLTree::removeInOrder(int n){
+void AVLTree::removeInOrder(int n){
     vector<Node*> nodes;
     nodes = inOrderTraversal(root, nodes);
     if(n > nodes.size()){
-        return false;
+        cout << "unsuccessful" << endl;
     }
     else{
         removeID(nodes[n-1]->id);
-
-        return true;
+        cout << "successful" << endl;
     }
 }
 vector<AVLTree::Node*> AVLTree::inOrderTraversal(Node* node, vector<Node*> &nodes){
@@ -296,19 +294,19 @@ AVLTree::Node* AVLTree::removeHelper(Node* node, string id) {
 
 }
 
-bool AVLTree::removeID(string id) {
+void AVLTree::removeID(string id) {
     if (searchIDHelper(root, id) == nullptr) {
-        return false;
+        cout << "unsuccessful" << endl;
     }
     root = removeHelper(root, id);
-    return true;
+    cout << "successful" << endl;
 }
 
 // print out the number of levels in the tree
-int AVLTree::printLevelCount() {
+void AVLTree::printLevelCount() {
     int count = 0;
     if (root == nullptr) {
-		return count;
+		cout << 0 << endl;
 	}
     else {
         queue<Node*> q;
@@ -319,7 +317,6 @@ int AVLTree::printLevelCount() {
                 Node* node = q.front();
                 q.pop();
                 // print out all the names in the current level on a new line
-                cout << node->name << " ";
                 if (node->left != nullptr) {
                     q.push(node->left);
                 }
@@ -330,6 +327,6 @@ int AVLTree::printLevelCount() {
             }
             count++;
         }
-        return count;
+        cout << count << endl;
     }
 }

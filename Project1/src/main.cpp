@@ -11,52 +11,39 @@ int main(){
 	AVLTree tree;
 
 	cout << "Inserting names and IDs into the AVL tree..." << endl;
-	if (tree.insertNameID("Rohan", "1")) {
-		cout << "successful" << endl;
-	}
-	else {
-		cout << "unsuccessful" << endl;
-	}
+	tree.insertNameID("Rohan", "1");
 	tree.printInOrder();
-	if (tree.insertNameID("Michael", "2")) {
-		cout << "successful" << endl;
-	}
-	else {
-		cout << "unsuccessful" << endl;
-	}
+	tree.insertNameID("Michael", "2");
 	tree.printInOrder();
-	if (tree.insertNameID("Kaylee", "3")) {
-		cout << "successful" << endl;
-		}
-	else {
-			cout << "unsuccessful" << endl;
-		}
-
+	tree.insertNameID("Kaylee", "3");
+	tree.insertNameID("Dylan", "4");
+	tree.insertNameID("Paul", "5");
 	// print in order test
 	tree.printInOrder();
 
 	// print level count test
-	cout << tree.printLevelCount() << endl;
+	tree.printLevelCount();
 
 	// remove test
-if (tree.removeID("3")) {
-		cout << "successful" << endl;
-	}
-	else {
-		cout << "unsuccessful" << endl;
-	}
+	tree.removeID("3");
 
 	// print in order test
 	tree.printInOrder();
+	// print pre order test
+	tree.printPreOrder();
+	// print post order test
+	tree.printPostOrder();
+
+	// search test
+	tree.searchID("1");
+	tree.searchName("Michael");
 	
 	// remove in order test
-	if (tree.removeInOrder(1)) {
-		cout << "successful" << endl;
-	}
-	else {
-		cout << "unsuccessful" << endl;
-	}
+	tree.removeInOrder(3);
 	tree.printInOrder();
 	return 0;
 }
 
+// TODO:
+// input parsing
+// unit tests
