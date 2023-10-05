@@ -33,7 +33,6 @@ class AVLTree{
         string printInOrderHelper(Node* node);
         string printPreOrderHelper(Node* node);
         string printPostOrderHelper(Node* node);
-        bool verifyAVL(Node* node);
         vector<Node*> inOrderTraversal(Node* node, vector<Node*> &nodes);
 
     public:

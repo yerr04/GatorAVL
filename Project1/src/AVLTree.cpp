@@ -102,20 +102,6 @@ AVLTree::Node* AVLTree::insertHelper(Node* node, string name, string id) {
     }
 }
 
-bool AVLTree::verifyAVL(Node* node){
-    if (root == nullptr){
-        return true;
-    }
-
-    int leftHeight = height(root->left);
-    int rightHeight = height(root->right);
-
-    if (abs(leftHeight - rightHeight) <= 1
-    && verifyAVL(root->left) && verifyAVL(root->right)){
-        return true;
-    }
-    return false;
-}
 
 bool AVLTree::insertNameID(string name, string id){
     if (searchIDHelper(root, id) != nullptr) {
