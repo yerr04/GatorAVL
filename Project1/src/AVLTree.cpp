@@ -1,5 +1,6 @@
 #pragma once
 #include "AVLTree.h"
+#include <regex>
 
 AVLTree::AVLTree(){
     root = nullptr;
@@ -80,24 +81,7 @@ AVLTree::Node* AVLTree::insertHelper(Node* node, string name, string id) {
         root->height = updateHeight(node);
 
         // check if tree is balanced
-        int balance = height(node->left) - height(node->right);
-		if (balance > 1) {
-			if (height(node->left->left) >= height(node->left->right)) {
-				node = rotateRight(node);
-			}
-			else {
-				node = rotateLeftRight(node);
-			}
-		}
-		else if (balance < -1) {
-			if (height(node->right->right) >= height(node->right->left)) {
-				node = rotateLeft(node);
-			}
-			else {
-				node = rotateRightLeft(node);
-			}
-		}
-        
+        balanceTree(node);
         return node;
     }
 }
@@ -107,8 +91,18 @@ void AVLTree::insertNameID(string name, string id){
     if (searchIDHelper(root, id) != nullptr) {
         cout << "unsuccessful" << endl;
 	}
-	root = insertHelper(root, name, id);
-    cout << "successful" << endl;
+    // id must be 8 digits
+    else if (id.length() != 8) {
+		cout << "unsuccessful" << endl;
+	}
+    // names must only include alphabets from [a-z] and [A-Z] and spaces
+    else if (!regex_match(name, regex("^[a-zA-Z ]*$"))) {
+        cout << "unsuccessful" << endl;
+    }
+    else {
+        root = insertHelper(root, name, id);
+        cout << "successful" << endl;
+    }
 }
 
 AVLTree::Node* AVLTree::searchIDHelper(Node* &node, string id) {
@@ -271,24 +265,7 @@ AVLTree::Node* AVLTree::removeHelper(Node* node, string id) {
         else {
             node->right = removeHelper(node->right, id);
         }
-        int balance = height(node->left) - height(node->right);
-        if (balance > 1) {
-            if (height(node->left->left) >= height(node->left->right)) {
-                node = rotateRight(node);
-            }
-            else {
-                node = rotateLeftRight(node);
-            }
-        }
-        else if (balance < -1) {
-            if (height(node->right->right) >= height(node->right->left)) {
-                node = rotateLeft(node);
-            }
-            else {
-                node = rotateRightLeft(node);
-            }
-        }
-        updateHeight(node);
+        balanceTree(node);
         return node;
     }
 
@@ -298,8 +275,14 @@ void AVLTree::removeID(string id) {
     if (searchIDHelper(root, id) == nullptr) {
         cout << "unsuccessful" << endl;
     }
-    root = removeHelper(root, id);
-    cout << "successful" << endl;
+    // id must be 8 digits
+    else if (id.length() != 8) {
+		cout << "unsuccessful" << endl;
+	}
+    else {
+        root = removeHelper(root, id);
+        cout << "successful" << endl;
+    }
 }
 
 // print out the number of levels in the tree
@@ -329,4 +312,30 @@ void AVLTree::printLevelCount() {
         }
         cout << count << endl;
     }
+}
+
+void AVLTree::balanceTree(Node* node) {
+    if (node == nullptr) {
+		return;
+	}
+	balanceTree(node->left);
+	balanceTree(node->right);
+	int balance = height(node->left) - height(node->right);
+    if (balance > 1) {
+        if (height(node->left->left) >= height(node->left->right)) {
+			node = rotateRight(node);
+		}
+        else {
+			node = rotateLeftRight(node);
+		}
+	}
+    else if (balance < -1) {
+        if (height(node->right->right) >= height(node->right->left)) {
+			node = rotateLeft(node);
+		}
+        else {
+			node = rotateRightLeft(node);
+		}
+	}
+	updateHeight(node);
 }

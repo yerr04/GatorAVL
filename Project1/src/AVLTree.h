@@ -34,6 +34,7 @@ class AVLTree{
         string printPreOrderHelper(Node* node);
         string printPostOrderHelper(Node* node);
         vector<Node*> inOrderTraversal(Node* node, vector<Node*> &nodes);
+        void balanceTree(Node* node);
 
     public:
         AVLTree();

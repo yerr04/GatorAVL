@@ -10,37 +10,58 @@
 int main(){
 	AVLTree tree;
 
-	cout << "Inserting names and IDs into the AVL tree..." << endl;
-	tree.insertNameID("Rohan", "1");
-	tree.printInOrder();
-	tree.insertNameID("Michael", "2");
-	tree.printInOrder();
-	tree.insertNameID("Kaylee", "3");
-	tree.insertNameID("Dylan", "4");
-	tree.insertNameID("Paul", "5");
-	// print in order test
-	tree.printInOrder();
+	// number of commands to be executed
+	int commandNum = 0;
+	cin >> commandNum;
 
-	// print level count test
-	tree.printLevelCount();
-
-	// remove test
-	tree.removeID("3");
-
-	// print in order test
-	tree.printInOrder();
-	// print pre order test
-	tree.printPreOrder();
-	// print post order test
-	tree.printPostOrder();
-
-	// search test
-	tree.searchID("1");
-	tree.searchName("Michael");
-	
-	// remove in order test
-	tree.removeInOrder(3);
-	tree.printInOrder();
+	// execute commands
+	string command;
+	cin >> command;
+	while (commandNum > 0) {
+		if (command == "insert") {
+			string name, id = "";
+			// get rid of the the quotes
+			getline(cin, name, '"'); 
+			getline(cin, name, '"'); 
+			getline(cin, id);
+			// remove leading and trailing whitespace
+			id.erase(0, id.find_first_not_of(" \n\r\t"));
+			id.erase(id.find_last_not_of(" \n\r\t") + 1);
+			tree.insertNameID(name, id);
+		}
+		else if (command == "remove") {
+			string id;
+			cin >> id;
+			tree.removeID(id);
+		}
+		else if (command == "search") {
+			string id;
+			cin >> id;
+			tree.searchID(id);
+		}
+		else if (command == "printInOrder") {
+			tree.printInOrder();
+		}
+		else if (command == "printPreOrder") {
+			tree.printPreOrder();
+		}
+		else if (command == "printPostOrder") {
+			tree.printPostOrder();
+		}
+		else if (command == "printLevelCount") {
+			tree.printLevelCount();
+		}
+		else if (command == "removeInOrder") {
+			int n;
+			cin >> n;
+			tree.removeInOrder(n);
+		}
+		else {
+			cout << "Invalid command" << endl;
+		}
+		commandNum--;
+		cin >> command;
+	}
 	return 0;
 }
 
