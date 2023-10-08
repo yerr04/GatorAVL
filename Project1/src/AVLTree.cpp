@@ -1,4 +1,3 @@
-#pragma once
 #include "AVLTree.h"
 #include <regex>
 
@@ -70,6 +69,9 @@ AVLTree::Node* AVLTree::insertHelper(Node* node, string name, string id) {
     if (node == nullptr) {
         return new Node(name, id);
     }
+    else if (!regex_match(id, regex("^[0-9]+$"))) {
+        cout << "unsuccessful" << endl;
+    }
     else {
         if (stoi(id) > stoi(node->id)) {
             node->right = insertHelper(node->right, name, id);
@@ -78,10 +80,10 @@ AVLTree::Node* AVLTree::insertHelper(Node* node, string name, string id) {
             node->left = insertHelper(node->left, name, id);
         }
 
-        root->height = updateHeight(node);
+        node->height = updateHeight(node);
 
         // check if tree is balanced
-        balanceTree(node);
+        node = balanceTree(node);
         return node;
     }
 }
@@ -105,8 +107,11 @@ void AVLTree::insertNameID(string name, string id){
     }
 }
 
-AVLTree::Node* AVLTree::searchIDHelper(Node* &node, string id) {
+AVLTree::Node* AVLTree::searchIDHelper(Node* node, string id) {
     if (node == nullptr) {
+        return nullptr;
+    }
+    if (!regex_match(id, regex("^[0-9]+$"))) {
         return nullptr;
     }
     if (stoi(id) < stoi(node->id)) {
@@ -127,36 +132,27 @@ void AVLTree::searchID(string id) {
     }
 }
 
-AVLTree::Node* AVLTree::searchNameHelper(Node* node, string name){
-    if(node == nullptr){
-        return nullptr;
+void AVLTree::searchNameHelper(Node* node, string name, vector<Node*>& nodes) {
+    if (node == nullptr) {
+        return;
     }
-    if(node->name == name){
-        return node;
+    if (node->name == name) {
+        nodes.push_back(node);
     }
-    else{
-        Node* left = searchNameHelper(node->left, name);
-        Node* right = searchNameHelper(node->right, name);
-        if(left != nullptr){
-            return left;
-        }
-        else if(right != nullptr){
-            return right;
-        }
-        else{
-            return nullptr;
-        }
-    }
+    searchNameHelper(node->left, name, nodes);
+    searchNameHelper(node->right, name, nodes);
 }
 
-// search for the student with the specified name
-void AVLTree::searchName(string name){
-    Node* node = searchNameHelper(root, name);
-    if(node == nullptr){
+void AVLTree::searchName(string name) {
+    vector<Node*> nodes;
+    searchNameHelper(root, name, nodes);
+    if (nodes.empty()) {
         cout << "unsuccessful" << endl;
     }
-    else{
-        cout << node->id << endl;
+    else {
+        for (Node* node : nodes) {
+            cout << node->id << endl;
+        }
     }
 }
 
@@ -214,8 +210,7 @@ void AVLTree::removeInOrder(int n){
         cout << "unsuccessful" << endl;
     }
     else{
-        removeID(nodes[n-1]->id);
-        cout << "successful" << endl;
+        removeID(nodes[n]->id);
     }
 }
 vector<AVLTree::Node*> AVLTree::inOrderTraversal(Node* node, vector<Node*> &nodes){
@@ -265,10 +260,9 @@ AVLTree::Node* AVLTree::removeHelper(Node* node, string id) {
         else {
             node->right = removeHelper(node->right, id);
         }
-        balanceTree(node);
+        balanceTree(node);  // It's important to balance the tree after removal
         return node;
     }
-
 }
 
 void AVLTree::removeID(string id) {
@@ -314,9 +308,9 @@ void AVLTree::printLevelCount() {
     }
 }
 
-void AVLTree::balanceTree(Node* node) {
+AVLTree::Node* AVLTree::balanceTree(Node* node) {
     if (node == nullptr) {
-		return;
+		return node;
 	}
 	balanceTree(node->left);
 	balanceTree(node->right);
@@ -338,4 +332,5 @@ void AVLTree::balanceTree(Node* node) {
 		}
 	}
 	updateHeight(node);
+    return node;
 }

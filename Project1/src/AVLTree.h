@@ -3,6 +3,7 @@
 #include <string>
 #include <queue>
 using namespace std;
+#ifndef PROJECT1_AVLTREE_H
 
 class AVLTree{
     private:
@@ -28,13 +29,13 @@ class AVLTree{
         Node* rotateRightLeft(Node* node);
         Node* insertHelper(Node* node, string name, string id);
         Node* removeHelper(Node* node, string id);
-        Node* searchIDHelper(Node* &node, string id);
-        Node* searchNameHelper(Node* node, string name);
+        Node* searchIDHelper(Node* node, string id);
+        void searchNameHelper(Node* node, string name, vector<Node*> &nodes);
         string printInOrderHelper(Node* node);
         string printPreOrderHelper(Node* node);
         string printPostOrderHelper(Node* node);
         vector<Node*> inOrderTraversal(Node* node, vector<Node*> &nodes);
-        void balanceTree(Node* node);
+        Node* balanceTree(Node* node);
 
     public:
         AVLTree();
@@ -50,3 +51,5 @@ class AVLTree{
         void printLevelCount();
         void removeInOrder(int n);
 };
+
+#endif //PROJECT1_AVLTREE_H
